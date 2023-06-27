@@ -4,24 +4,59 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private CharacterController controller;
-    private Vector3 direction;
+     public float forwardSpeed;
+    public float horizontalSpeed;
 
-    public float forwardSpeed;
+    private int desiredLane = 1; // 0: levo, 1: pravo, 2: desno
+    public float laneDistance = 4; // distanca između dve linije
 
-    void Start() {
-       controller = GetComponent<CharacterController>();
-    }
-    
-    void Update()
+    private Vector3 targetPosition;
+
+    void Start()
     {
-        direction.z = forwardSpeed;
+        targetPosition = transform.position;
     }
 
-    private void FixedUpdate()
+    void Update(){
+    // Kretanje loptice unaprijed
+    Vector3 forwardMovement = transform.forward * forwardSpeed * Time.fixedDeltaTime;
+    transform.position += forwardMovement;
+
+    // Kalkulacija skretanja
+    if (Input.GetKeyUp(KeyCode.RightArrow))
     {
+        if (desiredLane == 0)
+        {
+            desiredLane = 1; // Skreće u desnu traku
+        }
+        else if (desiredLane == 1)
+        {
+            desiredLane = 2; // Skreće u najdesniju traku
+        }
+    }
+    else if (Input.GetKeyUp(KeyCode.LeftArrow))
+    {
+        if (desiredLane == 1)
+        {
+            desiredLane = 0; // Skreće u najlevu traku
+        }
+        else if (desiredLane == 2)
+        {
+            desiredLane = 1; // Skreće u levu traku
+        }
+    }
 
-       controller.Move(direction * Time.fixedDeltaTime);
+    // Određivanje ciljne pozicije na osnovu trenutne trake
+    float targetLaneX = (desiredLane - 1) * laneDistance;
+    targetPosition = new Vector3(targetLaneX, transform.position.y, transform.position.z);
 
+    // Provjera da li je lopta već na ciljnoj poziciji
+    if (transform.position != targetPosition)
+    {
+        // Kretanje ka ciljnoj poziciji
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, horizontalSpeed * Time.fixedDeltaTime);
     }
 }
+
+}
+
