@@ -31,14 +31,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (desiredLane == 1)
         {
-            desiredLane = 2; // Skreće u najdesniju traku
+            desiredLane = 2; // Skreće u najdešnju traku
         }
     }
     else if (Input.GetKeyUp(KeyCode.LeftArrow))
     {
         if (desiredLane == 1)
         {
-            desiredLane = 0; // Skreće u najlevu traku
+            desiredLane = 0; // Skreće u najlevlju traku
         }
         else if (desiredLane == 2)
         {
@@ -50,13 +50,27 @@ public class PlayerController : MonoBehaviour
     float targetLaneX = (desiredLane - 1) * laneDistance;
     targetPosition = new Vector3(targetLaneX, transform.position.y, transform.position.z);
 
-    // Provjera da li je lopta već na ciljnoj poziciji
+    // Provera da li je lopta već na ciljnoj poziciji
     if (transform.position != targetPosition)
     {
         // Kretanje ka ciljnoj poziciji
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, horizontalSpeed * Time.fixedDeltaTime);
     }
+
+    
 }
+
+
+ void OnTriggerEnter(Collider other)
+    {
+
+        
+        if (other.CompareTag("Barrier"))
+        {
+            
+            PlayerManager.gameOver = true;
+        }
+    }
 
 }
 
