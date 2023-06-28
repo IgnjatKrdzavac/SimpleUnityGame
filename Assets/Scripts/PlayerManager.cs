@@ -8,10 +8,15 @@ public class PlayerManager : MonoBehaviour
     public static bool gameOver;
     public GameObject  gameOverPanel;
 
+    public static bool isGamestarted;
+
+    public GameObject startingText;
+
     void Start()
     {
         gameOver = false;
         Time.timeScale = 1;
+        isGamestarted = false;
     }
 
     // Update is called once per frame
@@ -20,6 +25,12 @@ public class PlayerManager : MonoBehaviour
         if(gameOver){
             Time.timeScale = 0;
             gameOverPanel.SetActive(true);
+        }
+
+        if(Input.GetMouseButtonDown(0)){
+            isGamestarted = true;
+
+            Destroy(startingText);
         }
     }
 }

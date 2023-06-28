@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
      public float forwardSpeed;
     public float horizontalSpeed;
 
+    public float maxSpeed;
+
     private int desiredLane = 1; // 0: levo, 1: pravo, 2: desno
     public float laneDistance = 4; // distanca između dve linije
 
@@ -18,7 +20,15 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
-    // Kretanje loptice unaprijed
+
+    if(!PlayerManager.isGamestarted){
+        return;
+    }
+
+    if(forwardSpeed < maxSpeed)
+        forwardSpeed += 0.01f * Time.deltaTime;
+
+    // Kretanje loptice unapred
     Vector3 forwardMovement = transform.forward * forwardSpeed * Time.fixedDeltaTime;
     transform.position += forwardMovement;
 
