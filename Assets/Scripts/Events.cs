@@ -4,7 +4,7 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     public void ReplayGame(){
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level4");
     }
 
     public void QuitGame(){

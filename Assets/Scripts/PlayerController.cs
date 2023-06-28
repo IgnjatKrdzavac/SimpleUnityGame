@@ -21,11 +21,14 @@ public class PlayerController : MonoBehaviour
 
     void Update(){
 
-    if(!PlayerManager.isGamestarted){
+   
+    if (!PlayerManager.isGamestarted)
+    {
+       targetPosition = new Vector3(0f, transform.position.y, transform.position.z);
         return;
     }
 
-    if(forwardSpeed < maxSpeed)
+    if (forwardSpeed < maxSpeed)
         forwardSpeed += 0.01f * Time.deltaTime;
 
     // Kretanje loptice unapred
@@ -58,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     // Određivanje ciljne pozicije na osnovu trenutne trake
     float targetLaneX = (desiredLane - 1) * laneDistance;
-    targetPosition = new Vector3(targetLaneX, transform.position.y, transform.position.z);
+    targetPosition = new Vector3(targetLaneX, transform.position.y, transform.position.z + forwardMovement.z);
 
     // Provera da li je lopta već na ciljnoj poziciji
     if (transform.position != targetPosition)
@@ -66,9 +69,9 @@ public class PlayerController : MonoBehaviour
         // Kretanje ka ciljnoj poziciji
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, horizontalSpeed * Time.fixedDeltaTime);
     }
-
-    
 }
+    
+
 
 
  void OnTriggerEnter(Collider other)
